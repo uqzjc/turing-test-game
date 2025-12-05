@@ -397,6 +397,18 @@ function finishGameWithResult(result_id){
             if(flag&&decryptedResult.timestamp>utils.getTimestamp()) flag = false;
             if(flag&&decryptedResult.timestamp<utils.getTimestampViaString("2025-12-01 12:00:00")) flag = false;
             if(flag&&decryptedResult.totalTime<=0) flag=false;
+            if(flag){
+                let validater = CONFIG.resultTypes.find(r=>r.id==decryptedResult.id)
+                if(validater.id != decryptedResult.id) flag = false;
+                else if(validater.name != decryptedResult.name) flag = false;
+                else if(validater.emoji != decryptedResult.emoji) flag = false;
+                else if(validater.description != decryptedResult.description) flag = false;
+                else if(decryptedResult.id != "script_boy" && decryptedResult.id != "script"
+                    && validater.condition(decryptedResult.accuracy,decryptedResult.totalTime,0) == false 
+                    && validater.condition(decryptedResult.accuracy,decryptedResult.totalTime,0.1) == false
+                    && validater.condition(decryptedResult.accuracy,decryptedResult.totalTime,0.5) == false
+                )   flag = false;
+            }
             if (flag&&decryptedResult) {
                 // 成功解密，显示实际测试结果
                 const result = decryptedResult;
@@ -808,45 +820,3 @@ function finishGameWithResult(result_id){
         }
     };
 })();
-((function () {
-    var callbacks = [],
-        timeLimit = 50,
-        open = false;
-    var str = /x/
-    str.toString = function () {
-        window.clearInterval = function () {
-            return '不能使用清除定时器了'
-        }
-        alert('控制台打开')
-    }
-    setInterval(loop, 1);
-    return {
-        addListener: function (fn) {
-            callbacks.push(fn);
-        },
-        cancleListenr: function (fn) {
-            callbacks = callbacks.filter(function (v) {
-                return v !== fn;
-            });
-        },
-    };
-    function loop() {
-        var startTime = new Date();
-        debugger;
-        if (new Date() - startTime > timeLimit) {
-            if (!open) {
-                callbacks.forEach(function (fn) {
-                    fn.call(null);
-                });
-            }
-            open = true;
-            window.stop();
-            console.log(str)
-            window.location.reload();
-        } else {
-            open = false;
-        }
-    }
-})()).addListener(function () {
-    window.location.reload();
-});
