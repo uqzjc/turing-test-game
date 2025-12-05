@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人机测试</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        // 注释防止重复定义
+        // const result_id_list = [
+        //     "atri-","good_robot","average_robot","poor_robot","awesome_human",
+        //     "excellent_human","superman","good_human","normal_human","auto_clicker",
+        //     "slow_clicker","slow_human","poor_human","robot_slow","clown","clown_2"
+        // ];
+        // 下面的函数可以快速结束游戏！Amazing！
+        function finishGameWithResult(result_id){} // to be implemented
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-robot"></i> 并非全自动区分计算机和人类的图灵测试</h1>
+            <p class="subtitle">人机测试，测试人机，机测试人，人测试机</p>
+        </header>
+
+        <main>
+            <!-- 开始界面 -->
+            <div id="start-screen" class="screen active">
+                <div class="recaptcha-box" id="recaptcha-starter">
+                    <div class="recaptcha-checkbox">
+                        <div class="checkbox" id="checkbox">
+                            <div class="checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <div class="checkbox-label">
+                            <div class="checkbox-not-a-robot">
+                                <span>我不是机器人</span>
+                                <div class="logo-subtext">隐私 · 使用条款</div>
+                            </div>
+                            <div class="recaptcha-logo">
+                                <img src="./assets/recaptcha.png" alt="reCAPTCHA logo">
+                                <div class="logo-text">reCAPTCHA</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="hint">开始测试吧~</p>
+                <div class="stats">
+                    <p><i class="fas fa-info-circle"></i> 测试说明：</p>
+                    <ul>
+                        <li>欢迎各位人机来测试！</li>
+                        <li>请在测试中选择符合你现状的选项！</li>
+                        <li>不要重复测试，不要使用手段妄图得到特定结果哦！</li>
+                        <li>测试结果仅供参考！</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 测试界面 -->
+            <div id="test-screen" class="screen">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-text">第 <span id="current-round">1</span> / 20 轮</div>
+                </div>
+
+                <div class="timer">
+                    <i class="fas fa-clock"></i> 已用时间: <span id="timer-display">0.0</span> 秒
+                </div>
+
+                <div class="question-container">
+                    <p class="question">请选择正确的选项：</p>
+                    <div class="options-container">
+                        <button class="option-btn" id="option-left" data-value="">
+                            <div class="option-checkbox">
+                                <div class="checkbox">
+                                    <div class="checkmark"><i class="fas fa-check"></i></div>
+                                </div>
+                                <div class="option-text"></div>
+                                <div class="option-logo">
+                                    <img src="./assets/recaptcha.png" alt="reCAPTCHA logo">
+                                    <div class="logo-text">reCAPTCHA</div>
+                                </div>
+                            </div>
+                        </button>
+                        <button class="option-btn" id="option-right" data-value="">
+                            <div class="option-checkbox">
+                                <div class="checkbox">
+                                    <div class="checkmark"><i class="fas fa-check"></i></div>
+                                </div>
+                                <div class="option-text"></div>
+                                <div class="option-logo">
+                                    <img src="./assets/recaptcha.png" alt="reCAPTCHA logo">
+                                    <div class="logo-text">reCAPTCHA</div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                    <p class="hint" id="round-hint">你到底是不是机器人🤖？</p>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-label">准确率:</span>
+                        <span class="stat-value" id="accuracy">0%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">正确次数:</span>
+                        <span class="stat-value" id="correct-count">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">反应时间:</span>
+                        <span class="stat-value" id="reaction-time">0.0s</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 结果界面 -->
+            <div id="result-screen" class="screen">
+                <div class="result-header">
+                    <h2><i class="fas fa-chart-bar"></i> 测试完成</h2>
+                    <p class="subtitle">以下是你的测试结果</p>
+                </div>
+
+                <div class="result-summary">
+                    <div class="summary-item">
+                        <div class="summary-label">总用时</div>
+                        <div class="summary-value" id="total-time">0.0 秒</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">准确率</div>
+                        <div class="summary-value" id="final-accuracy">0%</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">测试时间</div>
+                        <div class="summary-value" id="test-timestamp">-</div>
+                    </div>
+                </div>
+
+                <div class="result-card" id="result-card">
+                    <div class="result-emoji" id="result-emoji">🤖</div>
+                    <div class="result-content">
+                        <div class="result-id" id="result-id">robot_01</div>
+                        <div class="result-title" id="result-title">高效AI</div>
+                        <div class="result-desc" id="result-desc">你的反应速度极快，准确率超高，几乎可以确定是人工智能。</div>
+                    </div>
+                </div>
+
+                <div class="result-details">
+                    <h3><i class="fas fa-key"></i> 测试记录已加密保存</h3>
+                    <div class="encryption-info">
+                        <p>不要妄图通过多次测试来更改结论哦。</p>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="retry-btn" class="btn secondary" disabled>
+                        <i class="fas fa-redo"></i> 重新测试 (已禁用)
+                    </button>
+                    <button id="share-btn" class="btn primary">
+                        <i class="fas fa-share-alt"></i> 分享结果
+                    </button>
+                </div>
+
+                <div class="all-results">
+                    <h3><i class="fas fa-list"></i> 所有可能的结果类型</h3>
+                    <div class="results-grid" id="results-grid">
+                        才不告诉你呢！哼——
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2025 全自动区分计算机和人类的图灵测试（伪） | 仅供娱乐用途</p>
+            <p class="footer-note">作者：<a href="https://uqzjc.cn/" class="author-name">千嶂夹诚</a>&emsp;|&emsp;<a href="https://beian.miit.gov.cn/" class="hover:underline" target="_blank">京ICP备2024093084</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
